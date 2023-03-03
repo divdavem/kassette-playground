@@ -1,0 +1,85 @@
+name: Main CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test-ubuntu:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.31.0-focal
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - name: Setup
+        run: npm ci
+      - name: Test
+        run: HOME=/root npm run test
+      - name: Test record
+        run: HOME=/root npm run test:mocked
+      - name: Test replay
+        run: HOME=/root npm run test:mocked
+      - run: zip -q -r test-ubuntu.zip . -i "test-results/*" "mocks/*" -x "*/node_modules/*" ".cache/*"
+        shell: bash
+        if: failure()
+      - uses: actions/upload-artifact@v3
+        with:
+          name: test-ubuntu
+          path: test-ubuntu.zip
+        if: failure()
+  test-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - name: Setup
+        run: npm ci
+      - name: Install playwright
+        run: npx playwright install --with-deps chromium webkit firefox
+      - name: Test
+        run: npm run test
+      - name: Test record
+        run: npm run test:mocked
+      - name: Test replay
+        run: npm run test:mocked
+      - uses: actions/upload-artifact@v3
+        with:
+          name: test-windows
+          path: |
+            mocks
+            test-results
+        if: failure()
+  test-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - name: Setup
+        run: npm ci
+      - name: Install playwright
+        run: npx playwright install --with-deps chromium webkit firefox
+      - name: Test
+        run: npm run test
+      - name: Test record
+        run: npm run test:mocked
+      - name: Test replay
+        run: npm run test:mocked
+      - run: zip -q -r test-macos.zip . -i "test-results/*" "mocks/*" -x "*/node_modules/*" ".cache/*"
+        shell: bash
+        if: failure()
+      - uses: actions/upload-artifact@v3
+        with:
+          name: test-macos
+          path: test-macos.zip
+        if: failure()

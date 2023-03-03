@@ -26,13 +26,13 @@ exports.default = {
             command: `npm run serve`,
             port: 8080,
             timeout: 10 * 1000,
-            reuseExistingServer: true
+            reuseExistingServer: !process.env.CI
         },
         ...process.env.USE_MOCKS ? [{
             command: `npm run kassette`,
             port: 4200,
             timeout: 10 * 1000,
-            reuseExistingServer: true
+            reuseExistingServer: !process.env.CI
         }] : []
     ]
 };
