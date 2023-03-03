@@ -1,0 +1,19 @@
+{
+  "name": "kassette-playground",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "playwright test --config=playwright.config.js",
+    "test:mocked": "cross-env USE_MOCKS=true playwright test --config=playwright.config.js",
+    "kassette": "kassette -c kassette.config.js",
+    "serve": "http-server ./dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@amadeus-it-group/kassette": "^1.6.0",
+    "@playwright/test": "^1.31.1",
+    "cross-env": "^7.0.3",
+    "http-server": "^14.1.1"
+  }
+}
