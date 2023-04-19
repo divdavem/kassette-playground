@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "playwright test --config=playwright.config.js",
-    "test:mocked": "cross-env USE_MOCKS=true playwright test --config=playwright.config.js",
+    "test:mocked": "cross-env USE_MOCKS=true DEBUG=pw:webserver playwright test --workers=1 --config=playwright.config.js",
     "kassette": "kassette -c kassette.config.js",
     "serve": "http-server ./dist"
   },
