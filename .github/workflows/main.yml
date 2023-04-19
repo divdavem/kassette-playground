@@ -1,9 +1,6 @@
 name: Main CI
 
-on:
-  push:
-    branches:
-      - master
+on: push
 
 jobs:
   test-ubuntu:
