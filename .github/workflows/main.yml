@@ -17,17 +17,12 @@ jobs:
         run: npm ci
       - name: Test
         run: HOME=/root npm run test
-      - name: Test record
-        run: HOME=/root npm run test:mocked
-      - name: Test replay
-        run: HOME=/root npm run test:mocked
-      - run: zip -q -r test-ubuntu.zip . -i "test-results/*" "mocks/*" -x "*/node_modules/*" ".cache/*"
-        shell: bash
-        if: failure()
+      - name: Test with proxy
+        run: HOME=/root npm run test:proxy
       - uses: actions/upload-artifact@v3
         with:
           name: test-ubuntu
-          path: test-ubuntu.zip
+          path: test-results
         if: failure()
   test-windows:
     runs-on: windows-latest
@@ -43,16 +38,12 @@ jobs:
         run: npx playwright install --with-deps chromium webkit firefox
       - name: Test
         run: npm run test
-      - name: Test record
-        run: npm run test:mocked
-      - name: Test replay
-        run: npm run test:mocked
+      - name: Test with proxy
+        run: npm run test:proxy
       - uses: actions/upload-artifact@v3
         with:
           name: test-windows
-          path: |
-            mocks
-            test-results
+          path: test-results
         if: failure()
   test-macos:
     runs-on: macos-latest
@@ -68,15 +59,10 @@ jobs:
         run: npx playwright install --with-deps chromium webkit firefox
       - name: Test
         run: npm run test
-      - name: Test record
-        run: npm run test:mocked
-      - name: Test replay
-        run: npm run test:mocked
-      - run: zip -q -r test-macos.zip . -i "test-results/*" "mocks/*" -x "*/node_modules/*" ".cache/*"
-        shell: bash
-        if: failure()
+      - name: Test with proxy
+        run: npm run test:proxy
       - uses: actions/upload-artifact@v3
         with:
           name: test-macos
-          path: test-macos.zip
+          path: test-results
         if: failure()

@@ -9,7 +9,7 @@ exports.default = {
     use: {
         screenshot: 'only-on-failure',
         trace: 'retain-on-failure',
-        ...process.env.USE_MOCKS ? {
+        ...process.env.USE_PROXY ? {
             launchOptions: { proxy: {server: 'per-context'}},
             proxy: {server: 'http://127.0.0.1:4200'},
             serviceWorkers: 'block',
@@ -28,8 +28,8 @@ exports.default = {
             timeout: 10 * 1000,
             reuseExistingServer: !process.env.CI
         },
-        ...process.env.USE_MOCKS ? [{
-            command: `npm run kassette`,
+        ...process.env.USE_PROXY ? [{
+            command: `npm run proxy`,
             port: 4200,
             timeout: 10 * 1000,
             reuseExistingServer: !process.env.CI

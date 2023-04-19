@@ -1,16 +1,16 @@
-Simple repo to play with Kassette in Playwright tests
+Simple repo to reproduce an issue with playwright.
 
 Install
 ```bash
 npm install
 ```
 
-Run tests normally
+Run tests without proxy
 ```bash
 npm run test
 ```
 
-Run tests with proxy, run once to record, and again to replay
+Run tests with proxy
 ```bash
-npm run test:mocked
+npm run test:proxy
 ```
