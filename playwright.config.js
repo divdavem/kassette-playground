@@ -11,7 +11,7 @@ exports.default = {
         trace: 'retain-on-failure',
         ...process.env.USE_MOCKS ? {
             launchOptions: { proxy: {server: 'per-context'}},
-            proxy: {server: 'http://localhost:4200'},
+            proxy: {server: 'http://127.0.0.1:4200'},
             serviceWorkers: 'block',
             ignoreHTTPSErrors: true,
         } : {}
