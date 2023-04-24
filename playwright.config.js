@@ -13,7 +13,6 @@ exports.default = {
             launchOptions: { proxy: {server: 'per-context'}},
             proxy: {server: 'http://127.0.0.1:4200'},
             serviceWorkers: 'block',
-            ignoreHTTPSErrors: true,
         } : {}
     },
     projects: [

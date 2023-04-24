@@ -9,6 +9,14 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.32.3-focal
     steps:
       - uses: actions/checkout@v3
+      - name: Add trusted certificate
+        run: |
+          cp ca.pem /usr/share/ca-certificates/kassette.crt
+          echo kassette.crt >> /etc/ca-certificates.conf
+          update-ca-certificates
+          apt update && apt install libnss3-tools
+          mkdir -p /root/.pki/nssdb
+          certutil -d sql:/root/.pki/nssdb -A -t "C,," -n kassette -i ca.pem
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
@@ -28,6 +36,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Add trusted certificate
+        run: certutil -addstore -f "ROOT" ca.pem
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
@@ -49,6 +59,10 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Add trusted certificate
+        run: |
+          sudo security authorizationdb write com.apple.trust-settings.admin allow
+          sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ca.pem
       - uses: actions/setup-node@v3
         with:
           node-version: '18'

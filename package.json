@@ -5,7 +5,7 @@
   "scripts": {
     "test": "playwright test --config=playwright.config.js",
     "test:proxy": "cross-env USE_PROXY=true DEBUG=pw:webserver playwright test --workers=1 --config=playwright.config.js",
-    "proxy": "kassette -c kassette.config.js",
+    "proxy": "kassette -c kassette.config.js -k ca.pem",
     "serve": "http-server ./dist"
   },
   "author": "",
